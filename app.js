@@ -4,7 +4,7 @@ const emailInput = document.getElementById('email');
 const numberInput = document.getElementById('number');
 const tableBody = document.querySelector('table#my-table tbody');
 let data = [];
-
+// localStorage.clear();
 // Get data from local storage and display it in the table
 for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
@@ -33,15 +33,47 @@ function displayUserData(userData) {
     }
     const deleteCell = document.createElement('td');
     const deleteButton = document.createElement('span');
+    const editCell = document.createElement('td');
+    const editButton = document.createElement('span');
+
     deleteButton.id = 'delete-button';
+    editButton.id = 'edit-button';
     deleteButton.textContent = 'Delete';
+    editButton.textContent = 'Edit';
+
+
+
     deleteButton.addEventListener('click', function() {
         const rowIndex = Array.from(tableBody.children).indexOf(row);
         data.splice(rowIndex, 1);
         localStorage.removeItem(`user ${rowIndex + 1}`);
         tableBody.removeChild(row);
     });
+
+
+    editButton.addEventListener('click', function() {
+        // Repopulate form fields with user data
+        nameInput.value = userData.Name;
+        emailInput.value = userData.Email;
+        numberInput.value = userData.Phone;
+
+        // Remove user data from the array and localStorage
+        const rowIndex = Array.from(tableBody.children).indexOf(row);
+        data.splice(rowIndex, 1);
+        localStorage.removeItem(`user ${rowIndex + 1}`);
+
+        // Remove row from the table
+        tableBody.removeChild(row);
+    });
+
+
+
+
     deleteCell.appendChild(deleteButton);
+    // deleteCell.appendChild(editButton);
+    editCell.appendChild(editButton);
     row.appendChild(deleteCell);
+    row.appendChild(editCell);
+    // row.appendChild(editCell);
     tableBody.appendChild(row);
 }
