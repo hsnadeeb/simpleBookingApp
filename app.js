@@ -6,14 +6,31 @@ const tableBody = document.querySelector('table#my-table tbody');
 let data = [];
 // localStorage.clear();
 // Get data from local storage and display it in the table
-for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key.startsWith('user ')) {
-        const userData = JSON.parse(localStorage.getItem(key));
-        data.push(userData);
-        displayUserData(userData);
-    }
-}
+
+window.addEventListener("DOMContentLoaded",()=>{
+axios.get("https://crudcrud.com/api/c1fb6e1bd15241ecba7449682a8770e5/appointmentData")
+.then((response)=>{
+     console.log(response);
+     for(let i=0;i<response.data.length;i++){
+        const userData = response.data[i];
+                data.push(userData);
+                displayUserData(userData);
+     }
+})
+.catch((error)=>{
+    console.log(error);
+})
+
+// for (let i = 0; i < localStorage.length; i++) {
+//     const key = localStorage.key(i);
+//     if (key.startsWith('user ')) {
+//         const userData = JSON.parse(localStorage.getItem(key));
+//         data.push(userData);
+//         displayUserData(userData);
+//     }
+// }
+})
+
 
 form.addEventListener('submit', function(e) {
     e.preventDefault();
