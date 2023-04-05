@@ -20,7 +20,14 @@ form.addEventListener('submit', function(e) {
     const userData = {Name: nameInput.value, Email: emailInput.value, Phone: numberInput.value};
     data.push(userData);
     displayUserData(userData);
-    localStorage.setItem(`user ${localStorage.length + 1}`, JSON.stringify(userData));
+    // localStorage.setItem(`user ${localStorage.length + 1}`, JSON.stringify(userData));
+    axios.post("https://crudcrud.com/api/c1fb6e1bd15241ecba7449682a8770e5/appointmentData",userData)
+    .then((response)=>{
+        console.log(response);
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
     form.reset();
 });
 
