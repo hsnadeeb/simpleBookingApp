@@ -64,14 +64,31 @@ function displayUserData(userData) {
     editButton.id = 'edit-button';
     deleteButton.textContent = 'Delete';
     editButton.textContent = 'Edit';
+    deleteButton.setAttribute('data-id', userData._id);
 
+
+
+    // deleteButton.addEventListener('click', function() {
+    //     const rowIndex = Array.from(tableBody.children).indexOf(row);
+    //     data.splice(rowIndex, 1);
+    //     localStorage.removeItem(`user ${rowIndex + 1}`);
+    //     tableBody.removeChild(row);
+    // });
 
 
     deleteButton.addEventListener('click', function() {
         const rowIndex = Array.from(tableBody.children).indexOf(row);
-        data.splice(rowIndex, 1);
-        localStorage.removeItem(`user ${rowIndex + 1}`);
-        tableBody.removeChild(row);
+        const userId = deleteButton.getAttribute('data-id');
+
+        axios.delete(`https://crudcrud.com/api/c1fb6e1bd15241ecba7449682a8770e5/appointmentData/${userId}`)
+            .then((response) => {
+                console.log(response);
+                data.splice(rowIndex, 1);
+                tableBody.removeChild(row);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     });
 
 
